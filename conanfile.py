@@ -18,34 +18,33 @@ class Crab2d(ConanFile):
 	requires = 'sfml/2.5.1@bincrafters/stable'
 
 	def set_version(self):
-		git = tools.Git(folder=self.recipe_folder)
-		# if not git.is_pristine():
-		# 	raise ConanException("Please commit changes before creating/installing this package.")
-
-		self.output.info(f'''\
-Type: {type(git.get_tag())}
-Value: {git.get_tag()}
-''')
 		version = '0.0.0'
-		# tag = git.get_tag()
-		# if tag is not None:
-		# 	self.version = f'{version}_{git.get_revision()}'
-		# else:
-		self.version = f'{version}_{git.get_revision()[:7]}'
+		git = tools.Git(folder=self.recipe_folder)
 
-	def is_testing(self):
+		tag = git.get_tag()
+		modified = ''
+		if not git.is_pristine():
+			self.output.warn("Building with local git modifications.")
+			modified = '-modified'
+
+		if tag == version:
+			self.version = f'{version}{modified}'
+		else:
+			self.version = f'{version}-{git.get_revision()[:7]}{modified}'
+
+	def _is_testing(self):
 		return self.options.build_testing
 
 	def build_requirements(self):
-		if self.is_testing():
+		if self._is_testing():
 			self.build_requires('gtest/1.8.1')
 
 	def _configure_cmake(self):
 		cmake = CMake(self)
 
 		cmake.definitions['CONAN_SPECIFIED_VERSION'] = f'{self.version}'
-		if not self.is_testing():
-			cmake.definitions["BUILD_TESTING"] = "NO"
+		if not self._is_testing():
+			cmake.definitions['BUILD_TESTING'] = 'NO'
 
 		cmake.configure()
 		return cmake
@@ -53,7 +52,7 @@ Value: {git.get_tag()}
 	def build(self):
 		cmake = self._configure_cmake()
 		cmake.build()
-		if self.is_testing():
+		if self._is_testing():
 			cmake.test(output_on_failure=True)
 
 	def package(self):
