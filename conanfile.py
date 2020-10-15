@@ -12,9 +12,10 @@ class Crab2d(ConanFile):
 	description = 'A simple 2D game engine.'
 	settings = 'os', 'compiler', 'build_type', 'arch'
 	options = {'build_testing': [True, False]}
-	default_options = 'build_testing=True'
+	default_options = 'build_testing=True', 'sfml:graphics=True', 'sfml:window=True'
 	generators = 'cmake'
-	exports_sources = 'CMakeLists.txt', 'include/*', 'src/*', 'test/*'
+	exports_sources = 'CMakeLists.txt', 'include/*', 'src/*'
+	requires = 'sfml/2.5.1@bincrafters/stable'
 
 	def set_version(self):
 		git = tools.Git(folder=self.recipe_folder)
@@ -49,5 +50,4 @@ class Crab2d(ConanFile):
 
 	def depoly(self):
 		# TODO: how is this different than package?
-		cmake = self._configure_cmake()
-		cmake.install()
+		pass
