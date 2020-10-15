@@ -1,2 +1,2 @@
-# Crab2d
+# crab2d
 Simple 2D Game Engine
