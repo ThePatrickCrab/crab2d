@@ -19,7 +19,15 @@ class Crab2d(ConanFile):
 
 	def set_version(self):
 		git = tools.Git(folder=self.recipe_folder)
-		self.version = f'0.0.0_{git.get_revision()}'
+		if not git.is_pristine():
+			raise ConanException("Please commit changes before creating/installing this package.")
+
+		tag = git.get_tag()
+		version = '0.0.0'
+		if tag is not None:
+			self.version = f'{version}_{git.get_revision()}'
+		else:
+			self.version = f'{version}_{git.get_revision()[:7]}'
 
 	def is_testing(self):
 		return self.options.build_testing
