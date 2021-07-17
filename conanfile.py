@@ -12,10 +12,10 @@ class Crab2d(ConanFile):
 	description = 'A simple 2D game engine.'
 	settings = 'os', 'compiler', 'build_type', 'arch'
 	options = {'build_testing': [True, False]}
-	default_options = 'build_testing=True', 'sfml:graphics=True', 'sfml:window=True'
+	default_options = 'build_testing=False', 'sfml:graphics=True', 'sfml:window=True'
 	generators = 'cmake'
 	exports_sources = 'CMakeLists.txt', 'include/*', 'src/*'
-	requires = 'sfml/2.5.1@bincrafters/stable'
+	requires = 'sfml/2.5.1'
 
 	def set_version(self):
 		version = '0.0.0'
