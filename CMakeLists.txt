@@ -26,6 +26,6 @@ install(
 	ARCHIVE DESTINATION lib)
 
 # TODO: Why doesn't this install any files when doing a conan build?
-install(DIRECTORY include
+install(DIRECTORY include/
 	DESTINATION include/crab2d
 	FILES_MATCHING PATTERN "*.hpp")
