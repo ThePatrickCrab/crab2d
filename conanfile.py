@@ -59,6 +59,9 @@ class Crab2d(ConanFile):
 		cmake = self._configure_cmake()
 		cmake.install()
 
+	def package_info(self):
+		self.cpp_info.libs = [self.name]
+
 	def depoly(self):
 		# TODO: how is this different than package?
 		pass

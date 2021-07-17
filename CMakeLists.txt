@@ -21,11 +21,11 @@ target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
 # TODO: Figure out how to make PUBLIC_HEADER work.
 install(
 	TARGETS ${PROJECT_NAME}
-	# PUBLIC_HEADER DESTINATION include/crab2d
+	# PUBLIC_HEADER DESTINATION include/${PROJECT_NAME}
 	LIBRARY DESTINATION lib
 	ARCHIVE DESTINATION lib)
 
 # TODO: Why doesn't this install any files when doing a conan build?
 install(DIRECTORY include/
-	DESTINATION include/crab2d
+	DESTINATION include/${PROJECT_NAME}
 	FILES_MATCHING PATTERN "*.hpp")
