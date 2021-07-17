@@ -18,12 +18,13 @@ target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
 
+# TODO: Figure out how to make PUBLIC_HEADER work.
 install(
 	TARGETS ${PROJECT_NAME}
 	# PUBLIC_HEADER DESTINATION include/crab2d
 	LIBRARY DESTINATION lib
 	ARCHIVE DESTINATION lib)
 
-# TODO: using file here is a hack. Figure out how to make PUBLIC_HEADER work.
-file(GLOB includes include/*)
-file(COPY "${includes}" DESTINATION include/crab2d)
+install(DIRECTORY include
+	DESTINATION include/crab2d
+	FILES_MATCHING PATTERN "*.hpp")
